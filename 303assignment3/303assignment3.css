@@ -1,0 +1,83 @@
+/* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Create a fullscreen container for the background */
+.hyperspace-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #000000, #000022, #000044);
+    animation: hyperspace 20s linear infinite;
+}
+@keyframes sparkle {
+    0%, 100% {
+        background-position: 0 0; /* Start and end position (no shift) */
+    }
+    10% {
+        background-position: 10px 10px; /* Slightly shift the background */
+    }
+    20% {
+        background-position: -10px -10px; /* Slightly shift the background in opposite direction */
+    }
+    /* You can add more keyframes as needed for additional sparkle effects */
+}
+
+/* Keyframe animation for the hyperspace effect */
+@keyframes hyperspace {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.star {
+    animation: moveStar 5s linear infinite, blinkStar 1s infinite alternate, changeColor 5s linear infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+@keyframes moveStar {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(1920px, 1080px);
+        opacity: 0;
+    }
+}
+
+@keyframes blinkStar {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes changeColor {
+    0% {
+        background-color: rgb(255, 255, 255); /* Start and end color */
+    }
+    25% {
+        background-color: blue; /* Transition to blue at 25% */
+    }
+    50% {
+        background-color: green; /* Transition to green at 50% */
+    }
+    75% {
+        background-color: yellow; /* Transition to yellow at 75% */
+    }
+    100% {
+        background-color: aquamarine;
+    }
+}
