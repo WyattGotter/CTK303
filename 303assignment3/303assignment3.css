@@ -1,11 +1,10 @@
-/* Reset some default styles */
+
 body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
 
-/* Create a fullscreen container for the background */
 .hyperspace-container {
     position: fixed;
     top: 0;
@@ -17,18 +16,18 @@ body, html {
 }
 @keyframes sparkle {
     0%, 100% {
-        background-position: 0 0; /* Start and end position (no shift) */
+        background-position: 0 0; 
     }
     10% {
-        background-position: 10px 10px; /* Slightly shift the background */
+        background-position: 10px 10px; 
     }
     20% {
-        background-position: -10px -10px; /* Slightly shift the background in opposite direction */
+        background-position: -10px -10px; 
     }
-    /* You can add more keyframes as needed for additional sparkle effects */
+
 }
 
-/* Keyframe animation for the hyperspace effect */
+
 @keyframes hyperspace {
     0% {
         background-position: 0% 0%;
@@ -66,16 +65,15 @@ body, html {
 
 @keyframes changeColor {
     0% {
-        background-color: rgb(255, 255, 255); /* Start and end color */
+        background-color: rgb(255, 255, 255); 
     }
     25% {
-        background-color: blue; /* Transition to blue at 25% */
-    }
+        background-color: blue; 
     50% {
-        background-color: green; /* Transition to green at 50% */
+        background-color: green; 
     }
     75% {
-        background-color: yellow; /* Transition to yellow at 75% */
+        background-color: yellow; 
     }
     100% {
         background-color: aquamarine;
