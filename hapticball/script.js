@@ -1,5 +1,6 @@
 const ball = document.getElementById('ball');
 const container = document.querySelector('.container');
+const startButton = document.getElementById('startButton');
 let shouldRumble = false;
 
 let ballX = container.clientWidth / 2 - ball.clientWidth / 2;
@@ -9,20 +10,25 @@ let ballSpeedY = 0;
 
 window.addEventListener('devicemotion', handleDeviceMotion);
 
+
+startButton.addEventListener('click', () => {
+    startButton.style.display = 'none';
+    initializeGame();
+});
+
+function initializeGame() {
+}
+
 function handleDeviceMotion(event) {
     const { x, y } = event.accelerationIncludingGravity;
-
     const invertedX = -x;
-
     const collidedWithBorder = ballX <= 0 || ballX >= container.clientWidth - ball.clientWidth || ballY <= 0 || ballY >= container.clientHeight - ball.clientHeight;
 
     ballSpeedX += invertedX / 3;
     ballSpeedY += y / 3;
-
   
     ballSpeedX *= 0.95; 
     ballSpeedY *= 0.95; 
-
   
     const gravity = 0.2; 
     ballSpeedY += gravity;
