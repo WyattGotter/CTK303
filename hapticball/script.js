@@ -1,31 +1,21 @@
 const ball = document.getElementById('ball');
 const container = document.querySelector('.container');
-const startButton = document.getElementById('startButton');
-let shouldRumble = false;
-
 let ballX = container.clientWidth / 2 - ball.clientWidth / 2;
 let ballY = container.clientHeight / 2 - ball.clientHeight / 2;
 let ballSpeedX = 0;
 let ballSpeedY = 0;
 
+const bounceFactor = 0.8; // Adjust the bounce factor (higher values make it bouncier)
+const responsiveness = 0.1; // Adjust the responsiveness (higher values make it more reactive)
+
 window.addEventListener('devicemotion', handleDeviceMotion);
-
-
-startButton.addEventListener('click', () => {
-    startButton.style.display = 'none';
-    initializeGame();
-});
-
-function initializeGame() {
-}
 
 function handleDeviceMotion(event) {
     const { x, y } = event.accelerationIncludingGravity;
     const invertedX = -x;
-    const collidedWithBorder = ballX <= 0 || ballX >= container.clientWidth - ball.clientWidth || ballY <= 0 || ballY >= container.clientHeight - ball.clientHeight;
 
-    ballSpeedX += invertedX / 3;
-    ballSpeedY += y / 3;
+    ballSpeedX += invertedX * responsiveness;
+    ballSpeedY += y * responsiveness;
   
     ballSpeedX *= 0.95; 
     ballSpeedY *= 0.95; 
@@ -36,26 +26,15 @@ function handleDeviceMotion(event) {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
-    if (ballX < 0 || ballX > container.clientWidth - ball.clientWidth || ballY < 0 || ballY > container.clientHeight - ball.clientHeight) {
-        if (!shouldRumble) {
-            vibrateDevice();
-            shouldRumble = true;
-        }
-        ballSpeedX *= -0.8;
-        ballSpeedY *= -0.8;
-    } else {
-        shouldRumble = false;
+    // Bounce off the container boundaries
+    if (ballX < 0 || ballX > container.clientWidth - ball.clientWidth) {
+        ballSpeedX *= -bounceFactor; // Reverse velocity and reduce speed on left/right boundary
+        ballX = Math.max(0, Math.min(container.clientWidth - ball.clientWidth, ballX)); // Ensure ball stays inside
+    }
+    if (ballY < 0 || ballY > container.clientHeight - ball.clientHeight) {
+        ballSpeedY *= -bounceFactor; // Reverse velocity and reduce speed on top/bottom boundary
+        ballY = Math.max(0, Math.min(container.clientHeight - ball.clientHeight, ballY)); // Ensure ball stays inside
     }
 
     ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
-}
-
-function vibrateDevice() {
-    if ("vibrate" in navigator) {
-        navigator.vibrate(200);
-    } else if ("hapticFeedback" in window) {
-        window.hapticFeedback();
-    } else {
-        alert("Haptic feedback is not supported on this device.");
-    }
 }
