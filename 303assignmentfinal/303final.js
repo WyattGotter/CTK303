@@ -9,9 +9,9 @@ canvas.height = window.innerHeight * .99;
 let ball = {
     x: canvas.width / 2,
     y: canvas.height / 2,
-    radius: 17,
-    speedX: 16,
-    speedY: 16,
+    radius: 14,
+    speedX: 12,
+    speedY: 12,
     visible: true,
     reset() {
         this.x = canvas.width / 2;
