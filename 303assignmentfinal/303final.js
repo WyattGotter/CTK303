@@ -2,8 +2,8 @@ const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
 
 // Resize canvas to 85% of the window's width and height
-canvas.width = window.innerWidth * 0.85;
-canvas.height = window.innerHeight * 0.85;
+canvas.width = window.innerWidth * .99;
+canvas.height = window.innerHeight * .99;
 
 // Game objects
 let ball = {
@@ -35,8 +35,8 @@ let keys = { w: false, s: false };
 let powerUp = {
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    width: 50,
-    height: 50,
+    width: 58,
+    height: 58,
     visible: true
 };
 
