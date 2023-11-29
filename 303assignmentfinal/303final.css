@@ -1,0 +1,13 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Use the full height of the viewport */
+    margin: 0; /* Remove default margin */
+    background-color: #000;
+}
+
+#pongCanvas {
+    border: 1px solid #fff;
+    display: block; /* Remove default inline-block of canvas */
+}
