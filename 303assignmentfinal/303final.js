@@ -1,5 +1,9 @@
 const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
+const enableAudioButton = document.getElementById('enableAudioButton');
+const backgroundMusic = new Audio('wyattspongmusic.mp3'); // Replace with your MP3 file path
+const collisionSound = new Audio('wyattboopnoise.mp3'); // Replace with your sound file path
+
 
 // Resize canvas to 85% of the window's width and height
 canvas.width = window.innerWidth * .99;
@@ -10,8 +14,8 @@ let ball = {
     x: canvas.width / 2,
     y: canvas.height / 2,
     radius: 14,
-    speedX: 12,
-    speedY: 12,
+    speedX: 14,
+    speedY: 14,
     visible: true,
     reset() {
         this.x = canvas.width / 2;
@@ -26,7 +30,7 @@ let paddle1 = {
     score: 0, color: '#FFF', lastScored: false
 };
 let paddle2 = {
-    x: canvas.width - 30, y: canvas.height / 2 - 120, width: 10, height: 240, speed: 40,
+    x: canvas.width - 60, y: canvas.height / 2 - 100, width: 10, height: 240, speed: 30,
     score: 0, color: '#FFF', lastScored: false
 };
 
@@ -55,8 +59,8 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-const aiReactionThreshold = 0.1; // Smaller value = better reaction
-const aiMaxSpeed = 30; // Lower value = slower AI
+const aiReactionThreshold = 30; // Smaller value = better reaction
+const aiMaxSpeed = 7.7; // Lower value = slower AI
 
 function movePaddles() {
     if (keys.w && paddle1.y > 0) {
@@ -75,6 +79,9 @@ function movePaddles() {
         }
     }
 }
+// Load and play background music
+backgroundMusic.loop = true;
+backgroundMusic.play();
 
 function drawBall(ballObj) {
     ctx.beginPath();
@@ -127,9 +134,11 @@ function moveBall(ballObj) {
     // Collision with paddles
     if (ballObj.x - ballObj.radius < paddle1.x + paddle1.width && ballObj.y > paddle1.y && ballObj.y < paddle1.y + paddle1.height) {
         ballObj.speedX = -ballObj.speedX;
+        collisionSound.play(); // Play collision sound
     }
     if (ballObj.x + ballObj.radius > paddle2.x && ballObj.y > paddle2.y && ballObj.y < paddle2.y + paddle2.height) {
         ballObj.speedX = -ballObj.speedX;
+        collisionSound.play(); // Play collision sound
     }
 
     // Collision with power-up
@@ -174,6 +183,13 @@ function resetGame() {
     powerUp.x = Math.random() * canvas.width;
     powerUp.y = Math.random() * canvas.height;
 }
+
+// Event listener for the enable audio button
+enableAudioButton.addEventListener('click', function() {
+    backgroundMusic.loop = true;
+    backgroundMusic.play();
+    enableAudioButton.style.display = 'none'; // Hide the button
+});
 
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
