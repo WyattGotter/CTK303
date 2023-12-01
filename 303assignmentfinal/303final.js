@@ -116,8 +116,10 @@ function movePaddles() {
     }
 }
 
-// Function to move paddle 1 based on touch position
+/// Function to move paddle 1 based on touch position and prevent scrolling
 function touchMovePaddle(event) {
+    event.preventDefault(); // Prevent default behavior (scrolling) when touching the canvas
+
     var touchY = event.touches[0].clientY - canvas.getBoundingClientRect().top;
     // Move the paddle to the touch position
     paddle1.y = touchY - paddle1.height / 2;
@@ -128,7 +130,7 @@ function touchMovePaddle(event) {
 }
 
 // Add touch event listeners
-canvas.addEventListener('touchmove', touchMovePaddle);
+canvas.addEventListener('touchmove', touchMovePaddle, { passive: false }); // Ensure default behavior is prevented
 // Load and play background music
 backgroundMusic.loop = true;
 backgroundMusic.play();
