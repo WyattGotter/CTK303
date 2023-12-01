@@ -3,6 +3,8 @@ const ctx = canvas.getContext('2d');
 const enableAudioButton = document.getElementById('enableAudioButton');
 const backgroundMusic = new Audio('wyattspongmusic.mp3'); // Replace with your MP3 file path
 const collisionSound = new Audio('wyattboopnoise.mp3'); // Replace with your sound file path
+// Detect if the user is on a mobile device
+const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
 
 // Resize canvas to 85% of the window's width and height
@@ -74,12 +76,23 @@ document.addEventListener('keyup', function(event) {
 const aiReactionThreshold = 30; // Smaller value = better reaction
 const aiMaxSpeed = 7.7; // Lower value = slower AI
 
+// Adjust game speed for mobile devices
+if (isMobileDevice) {
+    ball.speedX = 8; // Slower ball speed
+    ball.speedY = 8;
+    paddle1.speed = 20; // Slower paddle speed
+    paddle2.speed = 20;
+}
+
 function movePaddles() {
-    if (keys.w && paddle1.y > 0) {
-        paddle1.y -= paddle1.speed;
-    }
-    if (keys.s && paddle1.y + paddle1.height < canvas.height) {
-        paddle1.y += paddle1.speed;
+    // For desktop: Use keyboard input
+    if (!isMobileDevice) {
+        if (keys.w && paddle1.y > 0) {
+            paddle1.y -= paddle1.speed;
+        }
+        if (keys.s && paddle1.y + paddle1.height < canvas.height) {
+            paddle1.y += paddle1.speed;
+        }
     }
 
     // Determine which ball to track
@@ -103,6 +116,19 @@ function movePaddles() {
     }
 }
 
+// Function to move paddle 1 based on touch position
+function touchMovePaddle(event) {
+    var touchY = event.touches[0].clientY - canvas.getBoundingClientRect().top;
+    // Move the paddle to the touch position
+    paddle1.y = touchY - paddle1.height / 2;
+
+    // Prevent the paddle from going out of bounds
+    paddle1.y = Math.max(paddle1.y, 0);
+    paddle1.y = Math.min(paddle1.y, canvas.height - paddle1.height);
+}
+
+// Add touch event listeners
+canvas.addEventListener('touchmove', touchMovePaddle);
 // Load and play background music
 backgroundMusic.loop = true;
 backgroundMusic.play();
