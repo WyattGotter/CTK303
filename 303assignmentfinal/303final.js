@@ -73,8 +73,8 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-const aiReactionThreshold = 30; // Smaller value = better reaction
-const aiMaxSpeed = 7.7; // Lower value = slower AI
+const aiReactionThreshold = 60; // Increased value for slower reaction
+const aiMaxSpeed = 7; // Lower value for slower AI paddle speed
 
 // Adjust game speed for mobile devices
 if (isMobileDevice) {
@@ -94,15 +94,14 @@ function movePaddles() {
             paddle1.y += paddle1.speed;
         }
     }
+     // Determine which ball to track
+     let ballToTrack = ball;
+     if (!ball.visible && additionalBalls.length > 0) {
+         // Find the first visible additional ball
+         ballToTrack = additionalBalls.find(b => b.visible);
+     }
 
-    // Determine which ball to track
-    let ballToTrack = ball;
-    if (!ball.visible && additionalBalls.length > 0) {
-        // Find the first visible additional ball
-        ballToTrack = additionalBalls.find(b => b.visible);
-    }
-
-    if (ballToTrack) {
+     if (ballToTrack) {
         // AI paddle movement based on the ball to track
         let paddle2Center = paddle2.y + paddle2.height / 2;
         let deltaY = ballToTrack.y - paddle2Center;
@@ -228,8 +227,8 @@ function moveBall(ballObj) {
 function drawScore() {
     ctx.font = '30px Arial';
     ctx.fillStyle = '#fff';
-    ctx.fillText(`Player 1: ${paddle1.score}`, 50, 30);
-    ctx.fillText(`Player 2: ${paddle2.score}`, canvas.width - 200, 30);
+    ctx.fillText(`You: ${paddle1.score}`, 50, 30);
+    ctx.fillText(`Frank: ${paddle2.score}`, canvas.width - 200, 30);
 }
 
 function updateScore(ballObj) {
